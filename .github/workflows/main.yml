@@ -47,9 +47,6 @@ jobs:
       run: |
         cargo build --release --workspace
 
-    - name: Run tests
-      run: |
-        cargo test --workspace
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v3

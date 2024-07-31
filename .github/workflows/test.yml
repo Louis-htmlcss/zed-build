@@ -3,6 +3,9 @@ name: Build Zed Nightly
 on:
   schedule:
     - cron: "0 0 * * *" # Runs every night at midnight UTC
+  push:
+    branches:
+      - main
 
 jobs:
   build:
@@ -31,7 +34,7 @@ jobs:
           command: build
           args: --release
 
-      - name: Archive build
+      - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: zed-release
@@ -48,14 +51,10 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: zed-release
-          path: zed-release
 
       - name: Get the current date
         id: date
         run: echo "CURRENT_DATE=$(date +'%Y%m%d')" >> $GITHUB_ENV
-
-      - name: Zip the release artifact
-        run: zip -r zed-windows.zip zed-release/*
 
       - name: Upload release build artifact to GitHub Release
         uses: softprops/action-gh-release@v2
@@ -64,4 +63,4 @@ jobs:
           tag_name: ${{ env.CURRENT_DATE }}
           draft: false
           make_latest: true
-          files: zed-windows.zip
+          files: zed.exe

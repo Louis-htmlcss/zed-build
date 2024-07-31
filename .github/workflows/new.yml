@@ -1,4 +1,4 @@
-name: Build Zed Nightly
+name: Build Zed Nightly 2
 
 on:
   schedule:
